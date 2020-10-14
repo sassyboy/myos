@@ -1,4 +1,5 @@
 .vscode/
 *.o
+*.elf
 config.mk
 build/
