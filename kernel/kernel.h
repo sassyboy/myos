@@ -4,6 +4,14 @@
 #include <config.h>
 #include <stddef.h>
 #include <stdint.h>
+#include <platform/interface.h>
+#include <util/stdio.h>
+
+/**
+ * Useful symbols from the linker script
+ */
+extern uint32_t _kernel_start, _kernel_end, _kernel_size;
+extern uint32_t _kernel_text_start, _kernel_text_end, _kernel_text_size;
 
 typedef struct{
   int cpu;

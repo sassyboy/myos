@@ -6,7 +6,7 @@ TARGET_PLAT=RASPBERRYPI_ZERO
 
 OPT=-O2
 # Compiler flags for .c files:
-CFLAGS="$OPT -fpic -ffreestanding -Wall -Wextra -c"
+CFLAGS="$OPT -fpic -ffreestanding -nostdlib -Wall -Wextra -c"
 
 # Linker flags
 LFLAGS="$OPT -ffreestanding -nostartfiles -nostdlib"

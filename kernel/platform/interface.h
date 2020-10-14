@@ -1,6 +1,5 @@
 #ifndef PLAT_INTERFACE_H
 #define PLAT_INTERFACE_H
-#include <stdlib.h>
 #include <stdint.h>
 #include <stdbool.h>
 

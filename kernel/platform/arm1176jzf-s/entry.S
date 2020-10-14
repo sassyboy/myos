@@ -6,7 +6,6 @@
 // Make _start global.
 .globl _start
  
-        .org 0x8000
 // Entry point for the kernel.
 // r15 -> should begin execution at 0x8000.
 // r0 -> 0x00000000
@@ -18,8 +17,8 @@ _start:
 	mov sp, #0x8000
  
 	// Clear out bss.
-	ldr r4, =__bss_start
-	ldr r9, =__bss_end
+	ldr r4, =_kernel_bss_start
+	ldr r9, =_kernel_bss_end
 	mov r5, #0
 	mov r6, #0
 	mov r7, #0

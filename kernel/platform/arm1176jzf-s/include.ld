@@ -1,0 +1,1 @@
+LNK_KERNEL_ORG = 0x8000;

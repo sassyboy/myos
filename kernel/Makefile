@@ -25,7 +25,7 @@ $(KERN_IMG): $(KERN_ELF)
 	$(OBJCPY) $< -O binary $@
 
 $(KERN_ELF): $(OBJFILES)
-	$(CC) $(LFLAGS) -T $(PLATDIR)linker.ld -o $@ $^
+	$(CC) $(LFLAGS) -T linker.ld -L $(PLATDIR) -o $@ $^
 
 %.o: %.c
 	$(CC) $(CFLAGS) $< -o $@
