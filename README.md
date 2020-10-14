@@ -1,4 +1,12 @@
-# Just practicing building a portable light-weight OS 
+# Just practicing the building of a portable light-weight OS 
+
+## Install the toolchain:
+
+- For `ARM`-based platforms (Test on gcc version: 9.2.1):
+
+```bash
+sudo apt install gcc-arm-none-eabi
+```
 
 ## To build:
 Choose the desired configuration (target platform and etc.) in the `default-config.mk` and then run:
