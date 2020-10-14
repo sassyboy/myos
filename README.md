@@ -8,7 +8,7 @@
 sudo apt install gcc-arm-none-eabi
 ```
 
-## To build:
+## Build the kernel and user programs:
 Choose the desired configuration (target platform and etc.) in the `default-config.mk` and then run:
 
 ```bash
@@ -18,6 +18,9 @@ The resulting images are placed in the `build` directory.
 
 - `kernel.elf`: The ELF image of the kernel that can be used with QEMU, GRUB or other loaders that support ELF.
 - `kernel.img`: The binary image of the kernel.
+
+## Make a bootable drive:
+See example boot-drive/boot-partition content in the `boot` directory.
 
 <hr/>
 Author: Sasan Golchin (golchin -AT- bu.edu)

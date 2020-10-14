@@ -18,6 +18,8 @@ void arm1176jzfs_init(uint32_t r0, uint32_t r1, uint32_t atags){
   kstartup_params_t params;
   params.cpu = 0;
   params.platform_string = "ARM1176JZF-S";
+  params.ramdisk_addr = 0x200000;
+  params.ramdisk_size = 16 * 1024;
 	qKernelStart(&params);
 }
 

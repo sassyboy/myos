@@ -16,6 +16,8 @@ extern uint32_t _kernel_text_start, _kernel_text_end, _kernel_text_size;
 typedef struct{
   int cpu;
   const char* platform_string;
+  uint32_t ramdisk_addr;
+  uint32_t ramdisk_size;
 } kstartup_params_t;
 
 /**
