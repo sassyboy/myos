@@ -33,4 +33,37 @@ void DelayUntil(timestamp_t ts);
 void DelayMicro(uint64_t us);
 void DelayNano(uint64_t ns);
 
+/**
+ * Memory Barrier/Fence Instructions
+ * 
+ * @fn MemFence: A full system memory barrier. It ensures that all explicit
+ *               memory accesses that appear in program order before
+ *               MemFence() are observed before any explicit memory
+ *               accesses that appear in program order after MemFence().
+ * @fn MemFenceRd: Similar to MemFence(), but waits only for memory read
+ *                 operations to complete.
+ * @fn MemFenceWr: Similar to MemFence(), but waits only for memory write
+ *                 operations to complete.
+ * 
+ * Note that MemFence*() functions may not affect the ordering of any other
+ * instructions executing on the processor.
+ * 
+ * NOTE: These functions must be defined as static inline functions inside
+ * the corresponding platform-defs.h
+ */
+
+
+/**
+ * Synchronization
+ */
+typedef struct spinlock spinlock_t;
+void SpinLockInit(spinlock_t* lock);
+int SpinLockAttempt(spinlock_t* lock);
+void SpinLock(spinlock_t* lock);
+void SpinUnlock(spinlock_t* lock);
+
+/**
+ * Processor Calls
+ */
+void HaltCPU();
 #endif

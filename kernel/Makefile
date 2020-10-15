@@ -11,7 +11,7 @@ include $(PLATDIR)include.mk
 OBJFILES+= \
 kernel.o \
 modules/timers/systimer_bcm.o \
-modules/serial/uart_bcm.o \
+modules/serial/bcm_miniuart.o modules/serial/bcm_pl011uart.o \
 modules/gpio/bcm.o \
 util/stdio.o
 

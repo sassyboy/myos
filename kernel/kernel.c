@@ -1,9 +1,16 @@
 #include <kernel.h>
 
 void qKernelStart(kparams_t* params, int pcpu){
-  KInfo("In %s():\r\n",__FUNCTION__);
-  KInfo("Platform Name: %s, PCPU: %d\r\n",
-    params->platform_string, pcpu);  
+  KernelLock();
+  KInfo("In %s(): Platform Name: %s, PCPU: %d\r\n",__FUNCTION__,
+    params->platform_string, pcpu);
+  if (pcpu!=0){
+    KInfo("No SMP support for now. Halting PCPU %d !\r\n", pcpu);
+    KernelUnlock();
+    while(1){
+      HaltCPU();
+    }
+  }
   KInfo("Kernel @ 0x%x (Size: %d KBs)\r\n",
     &_kernel_start, (uint32_t)(&_kernel_size)/1024);
 
@@ -31,9 +38,18 @@ void qKernelStart(kparams_t* params, int pcpu){
   typedef int (*user_main_t)();
   user_main_t f = (user_main_t)(params->ramdisk->addr);
   KInfo("Calling the user program @0x%x...\r\n\r\n", (uint32_t)f);
+  KernelUnlock();
   int res = f();
   KInfo("\r\nUser Program returned %d\r\n", res);
   KPanic("[PANIC] Nothing more to do!");
+}
+
+static spinlock_t klock;
+void KernelLock(){
+  SpinLock(&klock);
+}
+void KernelUnlock(){
+  SpinUnlock(&klock);
 }
 
 void KPanic(const char* err){

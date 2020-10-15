@@ -1,6 +1,7 @@
 #include <config.h>
 #include <modules/gpio/bcm.h>
-#ifdef PLAT_BCM2835
+
+#if defined(PLAT_BCM2835) || defined(PLAT_BCM2836)
 
 typedef struct {
 	unsigned long	GPFSEL[6];	///< Function selection registers.
@@ -28,9 +29,16 @@ typedef struct {
 	unsigned long	GPPUD[1];
 	unsigned long	GPPUDCLK[2];
 	//Ignoring the reserved and test bytes
-} BCM2835_GPIO_REGS;
+} bcm_gpio_regs_t;
 
-volatile BCM2835_GPIO_REGS * const pRegs = (BCM2835_GPIO_REGS *) (0x20200000);
+#if defined(PLAT_BCM2835)
+#define BCM_PERIPH_BASE     (0x20000000)
+#elif defined(PLAT_BCM2836)
+#define BCM_PERIPH_BASE     (0x3F000000)
+#endif
+
+volatile bcm_gpio_regs_t* const pRegs = 
+	(bcm_gpio_regs_t *) (BCM_PERIPH_BASE + 0x200000);
 
 
 void SetGpioFunction(unsigned int pinNum, unsigned int funcNum) {

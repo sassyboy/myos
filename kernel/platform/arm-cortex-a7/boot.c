@@ -9,24 +9,40 @@ static kparams_t params;
 static kparams_mmap_entry_t pmmap[32];
 static kparams_memory_t pmem;
 static kparams_ramdisk_t pramdisk;
+static spinlock_t bootlock;
+static int bsp_cpu = -1;
+static inline void delay(int32_t count)
+{
+	asm volatile("__delay_%=: subs %[count], %[count], #1; bne __delay_%=\n"
+		 : "=r"(count): [count]"0"(count) : "cc");
+}
 
-void arm1176jzfs_init(uint32_t r0, uint32_t machine_id, uint32_t atags){
+void arm_cortex_a7_init(uint32_t pcpu, uint32_t machine_id, uint32_t atags){
   (void)machine_id;
+  extern void bcm_pl011uart_init();
+  atag_t* tag;
+  int mmap_count;
+  
+  // cpu0_only:
+  SpinLock(&bootlock);
   // Setup early console
-  extern void bcm_miniuart_init(); bcm_miniuart_init();
-  if (r0){
-    KPanic("[PANIC] Corrupted Boot Info\r\n");
-  }
+  bcm_pl011uart_init();
+
+  if (bsp_cpu != -1)
+    goto all_cpus;
+  else
+    bsp_cpu = pcpu;
+  
   if (atags == 0){
     atags = 0x100; // The default address
     KWarn("[WARN] Assuming ATAG is located @ 0x100\r\n");
   }
-	
-  memset(&params, 0, sizeof(kparams_t));
-  params.platform_string = "ARM1176JZF-S";
 
-  atag_t* tag = (atag_t*)atags;
-  int mmap_count = 0;
+  memset(&params, 0, sizeof(kparams_t));
+  params.platform_string = "ARM-CORTEX-A7";
+
+  tag = (atag_t*)atags;
+  mmap_count = 0;
   while (tag->hdr.tag != ATAG_NONE){
     switch(tag->hdr.tag){
     case ATAG_CORE:
@@ -64,6 +80,8 @@ void arm1176jzfs_init(uint32_t r0, uint32_t machine_id, uint32_t atags){
     params.flags |= KPARAMS_FL_MMAP;
   }
 
-	qKernelStart(&params, 0);
+all_cpus:
+  SpinUnlock(&bootlock);
+	qKernelStart(&params, pcpu);
 }
 

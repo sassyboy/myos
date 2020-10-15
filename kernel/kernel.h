@@ -70,6 +70,9 @@ typedef struct{
  */
 void qKernelStart(kparams_t* params, int pcpu);
 
+void KernelLock();
+void KernelUnlock();
+
 /******************************************************************************
  * Error Handling                                                             *
  ******************************************************************************/

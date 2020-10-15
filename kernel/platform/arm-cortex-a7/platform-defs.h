@@ -10,11 +10,14 @@ static inline void MemFenceRd(){
 static inline void MemFenceWr(){
   asm volatile("dmb ishst" ::: "memory");
 }
-static inline void MemFenceAll(){
+static inline void MemFence(){
   asm volatile("dmb ish" ::: "memory");
 }
 
 struct spinlock{
+  uint32_t m;
 };
+
+
 
 #endif
