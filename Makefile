@@ -13,5 +13,6 @@ config.mk: default-config.mk
 
 clean:
 	make -C kernel clean
+	make -C programs clean
 
 force:

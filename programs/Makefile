@@ -12,4 +12,7 @@ testsuite.elf: testsuite/main.c
 	$(CC) -I../kernel -I../kernel/platform/arm1176jzf-s/ -O2 -fpic -ffreestanding -nostdlib -Wall -Wextra -c $^ -o testsuite/main.o
 	$(CC) $(LFLAGS) -T linker.ld -o $@ testsuite/main.o -Wl,--just-symbols=../build/kernel.elf
 
+clean:
+	rm -rf ../build/ramdisk.img testsuite.elf testsuite/main.o
+
 force:
