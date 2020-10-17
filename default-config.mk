@@ -1,8 +1,8 @@
 # Select the target platform by assigning TARGET_PLAT one of the following
 # values:
 # X86_GENERIC, X86_64_GENERIC
-# RASPBERRYPI_ZERO, RASPBERRYPI_A, RASPBERRYPI_B, RASPBERRYPI_TWO
-TARGET_PLAT=RASPBERRYPI_ZERO
+# RPI_0W, RPI_2, RPI_3BP_64, RPI_4B_64
+TARGET_PLAT=RPI_0W
 
 OPT=-O2
 # Compiler flags for .c files:

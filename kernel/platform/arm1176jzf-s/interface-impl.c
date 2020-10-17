@@ -8,6 +8,23 @@ void EnableInterrupts(){
   asm volatile("cpsie if");
 }
 
+void InitIRQHandling(){
+  extern void bcm_intctrl_init();
+  bcm_intctrl_init();
+}
+void MaskIRQ(int irqn){
+  extern int bcm_intctrl_irq_mask(int);
+  bcm_intctrl_irq_mask(irqn);
+}
+void UnmaskIRQ(int irqn){
+  extern int bcm_intctrl_irq_unmask(int);
+  bcm_intctrl_irq_unmask(irqn);
+}
+void RegisterIRQHandler(int irqn, irq_handler_t func){
+  extern void bcm_intctrl_reg_handler(int, irq_handler_t);
+  bcm_intctrl_reg_handler(irqn, func);
+}
+
 uint32_t GetTimeStampFreq(){
   return 1000000UL;
 }
@@ -15,6 +32,11 @@ uint32_t GetTimeStampFreq(){
 timestamp_t ReadTimeStamp(){
   extern uint64_t systimer_bcm_read_tsc();
   return systimer_bcm_read_tsc();
+}
+
+void SetTimeStampEvent(timestamp_t tsc){
+  extern void systimer_bcm_set_point(uint32_t t);
+  systimer_bcm_set_point((uint32_t)tsc);
 }
 
 void DelayUntil(timestamp_t ts){

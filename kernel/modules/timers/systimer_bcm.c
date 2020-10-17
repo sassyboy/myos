@@ -3,7 +3,8 @@
 #include <stdint.h>
 #include <util/stdio.h>
 
-#if defined(PLAT_BCM2835) || defined(PLAT_BCM2836)
+#if defined(PLAT_BCM2835) || defined(PLAT_BCM2836) || \
+		defined(PLAT_BCM2837B0) || defined(PLAT_BCM2711)
 
 static inline void mmio_write(uint32_t reg, uint32_t data){
 	*(volatile uint32_t*)reg = data;
@@ -27,6 +28,10 @@ uint64_t systimer_bcm_read_tsc(){
   val <<= 32;
   val |= mmio_read(BCMSYSTIMER_CLO);
   return val;
+}
+
+void systimer_bcm_set_point(uint32_t t){
+  mmio_write(BCMSYSTIMER_C1, t);
 }
 
 void systimer_bcm_init(){

@@ -12,11 +12,19 @@
 /**
  * Interrupts and System Call interface
  */
-typedef void (*interrupt_handler_t)(int vector);
+typedef void (*irq_handler_t)(int irqn);
 typedef void (*syscall_handler_t)(int syscall_no, void* params);
 void DisableInterrupts();
 void EnableInterrupts();
 bool InterruptsEnabled();
+
+/**
+ * System IRQ Controller interface
+ */
+void InitIRQHandling();
+void MaskIRQ(int irqn);
+void UnmaskIRQ(int irqn);
+void RegisterIRQHandler(int irqn, irq_handler_t func);
 
 /**
  * System Timer Interface

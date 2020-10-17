@@ -7,7 +7,7 @@ static kparams_mmap_entry_t pmmap[32];
 static kparams_memory_t pmem;
 static kparams_ramdisk_t pramdisk;
 
-kparams_t* atag_to_kparams(uint32_t atags){
+kparams_t* atag_to_kparams(size_t atags){
   atag_t* tag;
   int mmap_count;
   memset(&params, 0, sizeof(kparams_t));

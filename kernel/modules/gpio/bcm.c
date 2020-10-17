@@ -1,33 +1,33 @@
-#include <config.h>
+#include <kernel.h>
 #include <modules/gpio/bcm.h>
 
-#if defined(PLAT_BCM2835) || defined(PLAT_BCM2836)
+#if defined(PLAT_BCM2835) || defined(PLAT_BCM2836)|| defined(PLAT_BCM2711)
 
 typedef struct {
-	unsigned long	GPFSEL[6];	///< Function selection registers.
-	unsigned long	Reserved_1;
-	unsigned long	GPSET[2];
-	unsigned long	Reserved_2;
-	unsigned long	GPCLR[2];
-	unsigned long	Reserved_3;
-	unsigned long	GPLEV[2];
-	unsigned long	Reserved_4;
-	unsigned long	GPEDS[2];
-	unsigned long	Reserved_5;
-	unsigned long	GPREN[2];
-	unsigned long	Reserved_6;
-	unsigned long	GPFEN[2];
-	unsigned long	Reserved_7;
-	unsigned long	GPHEN[2];
-	unsigned long	Reserved_8;
-	unsigned long	GPLEN[2];
-	unsigned long	Reserved_9;
-	unsigned long	GPAREN[2];
-	unsigned long	Reserved_A;
-	unsigned long	GPAFEN[2];
-	unsigned long	Reserved_B;
-	unsigned long	GPPUD[1];
-	unsigned long	GPPUDCLK[2];
+	uint32_t	GPFSEL[6];	///< Function selection registers.
+	uint32_t	Reserved_1;
+	uint32_t	GPSET[2];
+	uint32_t	Reserved_2;
+	uint32_t	GPCLR[2];
+	uint32_t	Reserved_3;
+	uint32_t	GPLEV[2];
+	uint32_t	Reserved_4;
+	uint32_t	GPEDS[2];
+	uint32_t	Reserved_5;
+	uint32_t	GPREN[2];
+	uint32_t	Reserved_6;
+	uint32_t	GPFEN[2];
+	uint32_t	Reserved_7;
+	uint32_t	GPHEN[2];
+	uint32_t	Reserved_8;
+	uint32_t	GPLEN[2];
+	uint32_t	Reserved_9;
+	uint32_t	GPAREN[2];
+	uint32_t	Reserved_A;
+	uint32_t	GPAFEN[2];
+	uint32_t	Reserved_B;
+	uint32_t	GPPUD[1];
+	uint32_t	GPPUDCLK[2];
 	//Ignoring the reserved and test bytes
 } bcm_gpio_regs_t;
 
@@ -35,6 +35,9 @@ typedef struct {
 #define BCM_PERIPH_BASE     (0x20000000)
 #elif defined(PLAT_BCM2836)
 #define BCM_PERIPH_BASE     (0x3F000000)
+#elif defined(PLAT_BCM2711)
+  // RPi4
+	#define BCM_PERIPH_BASE		(0xFE000000) 
 #endif
 
 volatile bcm_gpio_regs_t* const pRegs = 
@@ -45,7 +48,7 @@ void SetGpioFunction(unsigned int pinNum, unsigned int funcNum) {
 
 	int offset = pinNum / 10;
 
-	unsigned long val = pRegs->GPFSEL[offset];	// Read in the original register value.
+	uint32_t val = pRegs->GPFSEL[offset];	// Read in the original register value.
 
 	int item = pinNum % 10;
 	val &= ~(0x7 << (item * 3));
@@ -58,8 +61,8 @@ void SetGpioDirection(unsigned int pinNum, enum GPIO_DIR dir) {
 }
 
 void SetGpio(unsigned int pinNum, unsigned int pinVal) {
-	unsigned long offset=pinNum/32;
-	unsigned long mask=(1<<(pinNum%32));
+	uint32_t offset=pinNum/32;
+	uint32_t mask=(1<<(pinNum%32));
 
 	if(pinVal) {
 		pRegs->GPSET[offset]|=mask;
@@ -74,8 +77,8 @@ int ReadGpio(unsigned int pinNum) {
 
 void EnableGpioDetect(unsigned int pinNum, enum DETECT_TYPE type)
 {
-// 	unsigned long mask=(1<<pinNum);
-// 	unsigned long offset=pinNum/32;
+// 	uint32_t mask=(1<<pinNum);
+// 	uint32_t offset=pinNum/32;
 // 	
 // 	switch(type) {
 // 	case DETECT_RISING:
@@ -103,8 +106,8 @@ void EnableGpioDetect(unsigned int pinNum, enum DETECT_TYPE type)
 
 void DisableGpioDetect(unsigned int pinNum, enum DETECT_TYPE type)
 {
-// 	unsigned long mask=~(1<<(pinNum%32));
-// 	unsigned long offset=pinNum/32;
+// 	uint32_t mask=~(1<<(pinNum%32));
+// 	uint32_t offset=pinNum/32;
 // 	
 // 	switch(type) {
 // 	case DETECT_RISING:
@@ -132,8 +135,8 @@ void DisableGpioDetect(unsigned int pinNum, enum DETECT_TYPE type)
 
 void ClearGpioInterrupt(unsigned int pinNum)
 {
-// 	unsigned long mask=(1<<(pinNum%32));
-// 	unsigned long offset=pinNum/32;
+// 	uint32_t mask=(1<<(pinNum%32));
+// 	uint32_t offset=pinNum/32;
 // 
 // 	pRegs->GPEDS[offset]=mask;
 }

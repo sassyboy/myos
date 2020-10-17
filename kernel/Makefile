@@ -10,6 +10,7 @@ include $(PLATDIR)include.mk
 # 2) Add the platform-agnostic parts of the kernel
 OBJFILES+= \
 kernel.o \
+modules/intctrl/bcm_intctrl.o \
 modules/timers/systimer_bcm.o \
 modules/serial/bcm_miniuart.o modules/serial/bcm_pl011uart.o \
 modules/gpio/bcm.o \
@@ -17,7 +18,7 @@ util/stdio.o
 
 BUILDDIR=../build/
 KERN_ELF=$(BUILDDIR)kernel.elf
-KERN_IMG=$(BUILDDIR)kernel.img
+KERN_IMG=$(BUILDDIR)$(KERN_IMG_FNAME)
 
 all: $(KERN_IMG)
 	

@@ -3,7 +3,7 @@
 # This script will read default-config.mk and generates config.mk and config.h
 # config.mk is included in the Makefile script and config.h is included in all
 # kernel code.
-
+KERN_VER="0.1"
 . default-config.mk
 
 function exit_with_error(){
@@ -30,35 +30,57 @@ echo "LFLAGS=$LFLAGS" >> config.mk
 
 # Specify the platform-specific macros
 case $TARGET_PLAT in
-    "RASPBERRYPI_ZERO"| "RASPBERRYPI_A" | "RASPBERRYPI_B")
+    "RPI_0W")
         echo "TOOLCHAIN_PREFIX=arm-none-eabi-" >> config.mk
         echo "PLATDIR=platform/arm1176jzf-s/" >> config.mk
         echo "CFLAGS+=-mcpu=arm1176jzf-s -I./platform/arm1176jzf-s/" >> config.mk
-        
+        echo "KERN_IMG_FNAME=kernel.img" >> config.mk
+        echo '#define KERNEL_STRING "MyRTOS v'$KERN_VER' - RPi0w"' >> ./kernel/config.h
         echo "#define ARCH_ARM32" >> ./kernel/config.h
         echo "#define PLAT_ARM1176JZF_S" >> ./kernel/config.h
         echo "#define PLAT_BCM2835" >> ./kernel/config.h
         ;;
-    "RASPBERRYPI_TWO")
+    "RPI_2")
         echo "TOOLCHAIN_PREFIX=arm-none-eabi-" >> config.mk
         echo "PLATDIR=platform/arm-cortex-a7/" >> config.mk
         echo "CFLAGS+=-mcpu=cortex-a7 -I./platform/arm-cortex-a7/" >> config.mk
-
+        echo "KERN_IMG_FNAME=kernel.img" >> config.mk
+        echo '#define KERNEL_STRING "MyRTOS v'$KERN_VER' - RPi2"' >> ./kernel/config.h        
         echo "#define ARCH_ARM32" >> ./kernel/config.h
         echo "#define PLAT_ARMCORTEX_A7" >> ./kernel/config.h
         echo "#define PLAT_BCM2836" >> ./kernel/config.h
+        ;;
+    "RPI_3BP_64")
+        echo "TOOLCHAIN_PREFIX=aarch64-linux-gnu-" >> config.mk
+        echo "PLATDIR=platform/arm-cortex-a72/" >> config.mk
+        echo "CFLAGS+=-mcpu=cortex-a72 -I./platform/arm-cortex-a72/" >> config.mk
+        echo "KERN_IMG_FNAME=kernel8.img" >> config.mk
+        echo '#define KERNEL_STRING "MyRTOS v'$KERN_VER' - RPi3B+ (aarch64)"' >> ./kernel/config.h
+        echo "#define ARCH_ARM64" >> ./kernel/config.h
+        echo "#define PLAT_ARMCORTEX_A72" >> ./kernel/config.h
+        echo "#define PLAT_BCM2837B0" >> ./kernel/config.h
+        ;;
+    "RPI_4B_64")
+        echo "TOOLCHAIN_PREFIX=aarch64-linux-gnu-" >> config.mk
+        echo "PLATDIR=platform/arm-cortex-a72/" >> config.mk
+        echo "CFLAGS+=-mcpu=cortex-a72 -I./platform/arm-cortex-a72/" >> config.mk
+        echo "KERN_IMG_FNAME=kernel8.img" >> config.mk
+        echo '#define KERNEL_STRING "MyRTOS v'$KERN_VER' - RPi4B (aarch64)"' >> ./kernel/config.h
+        echo "#define ARCH_ARM64" >> ./kernel/config.h
+        echo "#define PLAT_ARMCORTEX_A72" >> ./kernel/config.h
+        echo "#define PLAT_BCM2711" >> ./kernel/config.h
         ;;
     "X86_GENERIC")
         echo "TOOLCHAIN_PREFIX=" >> config.mk
         echo "PLATDIR=platform/x86/" >> config.mk
         echo "CFLAGS+=-m32" >> config.mk
-
+        echo '#define KERNEL_STRING "MyRTOS v'$KERN_VER' - i686"' >> ./kernel/config.h
         echo "#define PLAT_X86" >> ./kernel/config.h
         ;;
     "X86_64_GENERIC")
         echo "TOOLCHAIN_PREFIX=" >> config.mk
         echo "PLATDIR=platform/x86_64/" >> config.mk
-        
+        echo '#define KERNEL_STRING "MyRTOS v'$KERN_VER' - x86_64"' >> ./kernel/config.h
         echo "#define PLAT_X86_64" >> ./kernel/config.h
         ;;
     *)

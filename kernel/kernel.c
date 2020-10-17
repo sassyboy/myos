@@ -2,8 +2,7 @@
 
 void qKernelStart(kparams_t* params, int pcpu){
   KernelLock();
-  KInfo("In %s(): Platform Name: %s, PCPU: %d\r\n",__FUNCTION__,
-    params->platform_string, pcpu);
+  KInfo("Loading %s ...\r\n", KERNEL_STRING);
   if (pcpu!=0){
     KInfo("No SMP support for now. Halting PCPU %d !\r\n", pcpu);
     KernelUnlock();
@@ -33,6 +32,12 @@ void qKernelStart(kparams_t* params, int pcpu){
   if (params->flags & KPARAMS_FL_CMDLINE){
     KInfo("Command Line: %s\r\n", params->cmdline);
   }
+
+  // KInfo("Enabling IRQ Handling...\r\n");
+  // InitIRQHandling();
+  // EnableInterrupts();
+  // SetTimeStampEvent(ReadTimeStamp() + 25000);
+  // UnmaskIRQ(1);
 
   // Call into the user program
   typedef int (*user_main_t)();
