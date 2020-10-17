@@ -13,7 +13,22 @@ static inline uint32_t mmio_read(uint32_t reg){
 	return *(volatile uint32_t*)reg;
 }
 
-#define BCMSYSTIMER_BASE  (0x20003000)
+#if defined(PLAT_BCM2835)
+  // RPi0w
+  #define BCM_PERIPH_BASE     (0x20000000)
+#elif defined(PLAT_BCM2836)
+  // RPi2
+  #define BCM_PERIPH_BASE     (0x3F000000)
+#elif defined(PLAT_BCM2837B0)
+  // Pi 3B+ and 3A+
+  #define BCM_PERIPH_BASE     (0x3F000000)
+#elif defined(PLAT_BCM2711)
+  // RPi4
+  #define BCM_PERIPH_BASE     (0xFE000000) 
+#endif
+
+
+#define BCMSYSTIMER_BASE  (BCM_PERIPH_BASE + 0x3000)
 #define BCMSYSTIMER_CS    (BCMSYSTIMER_BASE + 0x0)
 #define BCMSYSTIMER_CLO   (BCMSYSTIMER_BASE + 0x4)
 #define BCMSYSTIMER_CHI   (BCMSYSTIMER_BASE + 0x8)
