@@ -2,11 +2,19 @@
 
 ## Install the toolchain:
 
-- For `ARM`-based platforms (Test on gcc version: 9.2.1):
+- For 32-bit `ARM`-based platforms (Test on gcc version: 9.2.1):
 
 ```bash
 sudo apt install gcc-arm-none-eabi
 ```
+- For 64-bit `ARM`-based platforms (Tested on gcc version: 9.3.0):
+
+```bash
+sudo apt install gcc-aarch64-linux-gnu
+```
+- TODO: Add x86 and x86_64
+
+- TODO: Freeze the toolchains into one single docker image
 
 ## Build the kernel and user programs:
 Choose the desired configuration (target platform and etc.) in the `default-config.mk` and then run:
