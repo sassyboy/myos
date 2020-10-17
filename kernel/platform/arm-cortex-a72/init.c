@@ -1,4 +1,5 @@
 #include <kernel.h>
+#include <boot/fdt.h>
 #include <modules/gpio/bcm.h>
 
 // static spinlock_t bootlock;
@@ -19,7 +20,11 @@ void arm_cortex_a72_init(uint64_t dtbp, uint64_t x1, uint64_t x2, uint64_t x3, u
   // Setup early console
   extern void bcm_miniuart_init();
   bcm_miniuart_init();
-  KInfo("DTB stored @ 0x%x\r\n", (uint32_t)dtbp);
+  fdt_header_t* fdth = (fdt_header_t*)dtbp;
+  KInfo("DTB stored @ 0x%x [MAGIC: 0x%x, ver: 0x%x, size: %d]\r\n",
+    (uint32_t)dtbp, ben2len_u32(fdth->magic), ben2len_u32(fdth->version), 
+    ben2len_u32(fdth->totalsize));
+  
   KInfo("KERN ENTRY @ 0x%x\r\n", (uint32_t)x4);
   SetGpioDirection(21, 1);
   SetGpio(21, 1);

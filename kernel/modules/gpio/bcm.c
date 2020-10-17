@@ -1,7 +1,8 @@
 #include <kernel.h>
 #include <modules/gpio/bcm.h>
 
-#if defined(PLAT_BCM2835) || defined(PLAT_BCM2836)|| defined(PLAT_BCM2711)
+#if defined(PLAT_BCM2835) || defined(PLAT_BCM2836)|| \
+    defined(PLAT_BCM2837B0) || defined(PLAT_BCM2711)
 
 typedef struct {
 	uint32_t	GPFSEL[6];	///< Function selection registers.
@@ -32,12 +33,17 @@ typedef struct {
 } bcm_gpio_regs_t;
 
 #if defined(PLAT_BCM2835)
-#define BCM_PERIPH_BASE     (0x20000000)
+  // RPi0w
+  #define BCM_PERIPH_BASE     (0x20000000)
 #elif defined(PLAT_BCM2836)
-#define BCM_PERIPH_BASE     (0x3F000000)
+  // RPi2
+  #define BCM_PERIPH_BASE     (0x3F000000)
+#elif defined(PLAT_BCM2837B0)
+  // Pi 3B+ and 3A+
+  #define BCM_PERIPH_BASE     (0x3F000000)
 #elif defined(PLAT_BCM2711)
   // RPi4
-	#define BCM_PERIPH_BASE		(0xFE000000) 
+  #define BCM_PERIPH_BASE     (0xFE000000) 
 #endif
 
 volatile bcm_gpio_regs_t* const pRegs = 

@@ -1,4 +1,4 @@
-#include "atag-boot.h"
+#include "atag.h"
 #include <kernel.h>
 #include <util/string.h>
 
