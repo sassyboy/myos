@@ -7,7 +7,6 @@ int main() {
   KInfo("Testing the System Timer\r\n");
 
   // System Timer Test
-#ifdef PLAT_BCM2835
   register timestamp_t start, end;
   register uint32_t count = 1000000;
   start = ReadTimeStamp();
@@ -21,14 +20,19 @@ int main() {
   KInfo("CPU SPEED: %d MHz\r\n", 2000000/((uint32_t)end - (uint32_t)start));
 
   // GPIO Test
-  KInfo("Testing the GPIO on Pi0. Pins 36, 38 and 40 should turn on\r\n");
-  SetGpioDirection(16, GPIO_OUT);
-  SetGpioDirection(20, GPIO_OUT);
+  KInfo("Testing the GPIO on RPi. Pin 40 must flip every 100ms\r\n");
   SetGpioDirection(21, GPIO_OUT);
-  SetGpio(16, 1);
-  SetGpio(20, 1);
-  SetGpio(21, 1);
-#endif
+
+  while(1){
+    // SetGpio(16, 1);
+    // SetGpio(20, 1);
+    SetGpio(21, 1);
+    DelayMicro(100000); // 100mS
+    // SetGpio(16, 0);
+    // SetGpio(20, 0);
+    SetGpio(21, 0);
+    DelayMicro(100000);
+  }
   KInfo("Bye!\r\n");
   return 0;
 }
