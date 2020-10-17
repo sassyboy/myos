@@ -1,4 +1,5 @@
 #include <platform/interface.h>
+#include "../sync.h"
 
 void DisableInterrupts(){
   asm volatile("cpsid if");
@@ -39,38 +40,13 @@ void SpinLockInit(spinlock_t* lock){
 }
 
 int SpinLockAttempt(spinlock_t* lock){
-	unsigned long tmp;
-  asm volatile(
-    "1: ldrex   %0, [%1]\n"
-    "	  teq     %0, #0\n"
-    "   bne 2f\n"
-    "	  strexeq %0, %2, [%1]\n"
-    "2:"
- 	  : "=&r" (tmp) : "r" (&lock->m), "r" (1) : "cc"
-  );
-  return tmp;
+	return spinlock_trylock(&lock->m);
 }
 void SpinLock(spinlock_t* lock){
-	unsigned long tmp;
-  asm volatile(
-    "1: ldrex   %0, [%1]\n"
-    "	  teq     %0, #0\n"
-    "   wfene\n"
-    "	  strexeq %0, %2, [%1]\n"
-    "   teqeq	  %0, #0\n"
-    "	  bne	1b"
- 	  : "=&r" (tmp) : "r" (&lock->m), "r" (1) : "cc"
-  );
-  MemFence();
+  spinlock_lock(&lock->m);
 }
 void SpinUnlock(spinlock_t* lock){
-  MemFence();
-	asm volatile(
-    "str	%1, [%0]\n"
-    "dsb\n"
-    "sev\n"
-	: : "r" (&lock->m), "r" (0) : "cc"
-  );
+  spinlock_unlock(&lock->m);
 }
 
 void HaltCPU(){

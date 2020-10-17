@@ -15,7 +15,7 @@ static inline void MemFence(){
 }
 
 struct spinlock{
-  uint32_t m;
+  uint64_t m;
 };
 
 

@@ -18,8 +18,15 @@ void arm_cortex_a72_init(uint64_t dtbp, uint64_t x1, uint64_t x2, uint64_t x3, u
   // bsp_cpu = pcpu;
   
   // Setup early console
+#ifdef PLAT_BCM2837B0
+// HACK for pi3 on QEMU
+// QEMU uses UART0 instead of the miniUART :D
+  extern void bcm_pl011uart_init();
+  bcm_pl011uart_init();
+#else
   extern void bcm_miniuart_init();
   bcm_miniuart_init();
+#endif
   fdt_header_t* fdth = (fdt_header_t*)dtbp;
   KInfo("DTB stored @ 0x%x [MAGIC: 0x%x, ver: 0x%x, size: %d]\r\n",
     (uint32_t)dtbp, ben2len_u32(fdth->magic), ben2len_u32(fdth->version), 

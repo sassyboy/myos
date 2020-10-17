@@ -28,7 +28,13 @@ The resulting images are placed in the `build` directory.
 - `kernel.img`: The binary image of the kernel.
 
 ## Make a bootable drive:
-See example boot-drive/boot-partition content in the `boot` directory.
+See example boot-drive/boot-partition content in the `disk-templates` directory.
+
+## Emulate a device
+The following devices has been tested through emulation. You can reproduce the emulation environment using the specified commands in each case. You may need to install different flavors of `QEMU` for each architecture.
+
+- **Raspberry Pi 2:** `make emulate-pi2`
+- **Raspberry Pi 3B+:** `make emulate-pi2`
 
 <hr/>
 Author: Sasan Golchin (golchin -AT- bu.edu)

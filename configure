@@ -32,8 +32,8 @@ echo "LFLAGS=$LFLAGS" >> config.mk
 case $TARGET_PLAT in
     "RPI_0W")
         echo "TOOLCHAIN_PREFIX=arm-none-eabi-" >> config.mk
-        echo "PLATDIR=platform/arm1176jzf-s/" >> config.mk
-        echo "CFLAGS+=-mcpu=arm1176jzf-s -I./platform/arm1176jzf-s/" >> config.mk
+        echo "PLATDIR=platform/arm32/arm1176jzf-s/" >> config.mk
+        echo "CFLAGS+=-mcpu=arm1176jzf-s -I./platform/arm32/arm1176jzf-s/" >> config.mk
         echo "KERN_IMG_FNAME=kernel.img" >> config.mk
         echo '#define KERNEL_STRING "MyRTOS v'$KERN_VER' - RPi0w"' >> ./kernel/config.h
         echo "#define ARCH_ARM32" >> ./kernel/config.h
@@ -42,8 +42,8 @@ case $TARGET_PLAT in
         ;;
     "RPI_2")
         echo "TOOLCHAIN_PREFIX=arm-none-eabi-" >> config.mk
-        echo "PLATDIR=platform/arm-cortex-a7/" >> config.mk
-        echo "CFLAGS+=-mcpu=cortex-a7 -I./platform/arm-cortex-a7/" >> config.mk
+        echo "PLATDIR=platform/arm32/arm-cortex-a7/" >> config.mk
+        echo "CFLAGS+=-mcpu=cortex-a7 -I./platform/arm32/arm-cortex-a7/" >> config.mk
         echo "KERN_IMG_FNAME=kernel.img" >> config.mk
         echo '#define KERNEL_STRING "MyRTOS v'$KERN_VER' - RPi2"' >> ./kernel/config.h        
         echo "#define ARCH_ARM32" >> ./kernel/config.h
@@ -52,8 +52,8 @@ case $TARGET_PLAT in
         ;;
     "RPI_3BP_64")
         echo "TOOLCHAIN_PREFIX=aarch64-linux-gnu-" >> config.mk
-        echo "PLATDIR=platform/arm-cortex-a72/" >> config.mk
-        echo "CFLAGS+=-mcpu=cortex-a72 -I./platform/arm-cortex-a72/" >> config.mk
+        echo "PLATDIR=platform/arm64/arm-cortex-a72/" >> config.mk
+        echo "CFLAGS+=-mcpu=cortex-a72 -I./platform/arm64/arm-cortex-a72/" >> config.mk
         echo "KERN_IMG_FNAME=kernel8.img" >> config.mk
         echo '#define KERNEL_STRING "MyRTOS v'$KERN_VER' - RPi3B+ (aarch64)"' >> ./kernel/config.h
         echo "#define ARCH_ARM64" >> ./kernel/config.h
@@ -62,8 +62,8 @@ case $TARGET_PLAT in
         ;;
     "RPI_4B_64")
         echo "TOOLCHAIN_PREFIX=aarch64-linux-gnu-" >> config.mk
-        echo "PLATDIR=platform/arm-cortex-a72/" >> config.mk
-        echo "CFLAGS+=-mcpu=cortex-a72 -I./platform/arm-cortex-a72/" >> config.mk
+        echo "PLATDIR=platform/arm64/arm-cortex-a72/" >> config.mk
+        echo "CFLAGS+=-mcpu=cortex-a72 -I./platform/arm64/arm-cortex-a72/" >> config.mk
         echo "KERN_IMG_FNAME=kernel8.img" >> config.mk
         echo '#define KERNEL_STRING "MyRTOS v'$KERN_VER' - RPi4B (aarch64)"' >> ./kernel/config.h
         echo "#define ARCH_ARM64" >> ./kernel/config.h

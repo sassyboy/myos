@@ -55,7 +55,7 @@ int SpinLockAttempt(spinlock_t* lock){
 void SpinLock(spinlock_t* lock){
 	// unsigned long tmp;
   // asm volatile(
-  //   "1: ldrex   %0, [%1]\n"
+  //   "1: ldaxrh   %w0, [%1]\n"
   //   "	  teq     %0, #0\n"
   //   "   wfene\n"
   //   "	  strexeq %0, %2, [%1]\n"
@@ -78,5 +78,5 @@ void SpinUnlock(spinlock_t* lock){
 }
 
 void HaltCPU(){
-  // asm volatile("wfe");
+  asm volatile("wfe");
 }
