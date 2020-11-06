@@ -1,5 +1,31 @@
 #include <platform/interface.h>
 
+/**
+ * Memory Management Interface
+ * 
+ * The Translation Table Base Register (TTBR in CP15 register 2) holds the
+ * physical address of the base of the first-level table.
+ * 
+ * VMSAv6 introduced an additional translation table base register and a
+ * translation table base control register: TTBR0, TTBR1 and TTBCR.
+ * 
+ * - TTBR0 is expected to be used for process specific addresses.
+ * - TTBR1 is expected to be used for operating system and I/O addresses, which
+ *   do not change on a context switch.
+ * - The size of the TTBR1 table is always 16KB, but the TTBR0 table ranges in
+ *   size from 128 bytes to 16KB, depending on the value (N) in the TTBCR,
+ *   where N = 0 to 7.
+ */
+// size_t GetMMUTranslationBaseAddress(){
+
+//   // asm volatile(
+//   //   "mrc p15,0,r2,c1,c0,0;"
+//   //   "orr r2, #0x0001;"
+//   //   "mcr p15,0,r2,c1,c0,0;"
+//   // );
+// }
+// void SetMMUTranslationBaseAddress(size_t base_addr);
+
 void DisableInterrupts(){
   asm volatile("cpsid if");
 }

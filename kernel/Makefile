@@ -10,6 +10,7 @@ include $(PLATDIR)include.mk
 # 2) Add the platform-agnostic parts of the kernel
 OBJFILES+= \
 kernel.o \
+mem/physical.o \
 modules/intctrl/bcm_intctrl.o \
 modules/timers/systimer_bcm.o \
 modules/serial/bcm_miniuart.o modules/serial/bcm_pl011uart.o \

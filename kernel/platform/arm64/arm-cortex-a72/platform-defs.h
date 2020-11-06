@@ -14,10 +14,11 @@ static inline void MemFence(){
   asm volatile("dmb ish" ::: "memory");
 }
 
-struct spinlock{
-  uint64_t m;
-};
 
+typedef struct {
+	uint16_t owner;
+	uint16_t next;
+} spinlock_t __attribute__((aligned(4)));;
 
 
 #endif

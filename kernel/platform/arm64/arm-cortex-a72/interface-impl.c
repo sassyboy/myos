@@ -1,4 +1,5 @@
 #include <platform/interface.h>
+#include "../sync.h"
 
 void DisableInterrupts(){
   // asm volatile("cpsid if");
@@ -35,46 +36,18 @@ void DelayNano(uint64_t ns){
 }
 
 void SpinLockInit(spinlock_t* lock){
-  lock->m = 0;
+  lock->owner = 0;
+  lock->next = 0;
 }
 
 int SpinLockAttempt(spinlock_t* lock){
-	// unsigned long tmp;
-  // asm volatile(
-  //   "1: ldrex   %0, [%1]\n"
-  //   "	  teq     %0, #0\n"
-  //   "   bne 2f\n"
-  //   "	  strexeq %0, %2, [%1]\n"
-  //   "2:"
- 	//   : "=&r" (tmp) : "r" (&lock->m), "r" (1) : "cc"
-  // );
-  // return tmp;
-  (void)lock;
-  return 0;
+	return spinlock_trylock(lock);
 }
 void SpinLock(spinlock_t* lock){
-	// unsigned long tmp;
-  // asm volatile(
-  //   "1: ldaxrh   %w0, [%1]\n"
-  //   "	  teq     %0, #0\n"
-  //   "   wfene\n"
-  //   "	  strexeq %0, %2, [%1]\n"
-  //   "   teqeq	  %0, #0\n"
-  //   "	  bne	1b"
- 	//   : "=&r" (tmp) : "r" (&lock->m), "r" (1) : "cc"
-  // );
-  // MemFence();
-  (void)lock;
+	spinlock_lock(lock);
 }
 void SpinUnlock(spinlock_t* lock){
-  // MemFence();
-	// asm volatile(
-  //   "str	%1, [%0]\n"
-  //   "dsb\n"
-  //   "sev\n"
-	// : : "r" (&lock->m), "r" (0) : "cc"
-  // );
-  (void)lock;
+  spinlock_unlock(lock);
 }
 
 void HaltCPU(){

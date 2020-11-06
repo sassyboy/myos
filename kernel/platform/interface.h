@@ -1,6 +1,7 @@
 #ifndef PLAT_INTERFACE_H
 #define PLAT_INTERFACE_H
 #include <stdint.h>
+#include <stddef.h>
 #include <stdbool.h>
 
 /**
@@ -8,6 +9,12 @@
  * typedef timestamp_t
  */
 #include <platform-defs.h>
+
+/**
+ * Memory Management Interface
+ */
+size_t GetMMUTranslationBaseAddress();
+void SetMMUTranslationBaseAddress(size_t base_addr);
 
 /**
  * Interrupts and System Call interface
@@ -64,7 +71,6 @@ void DelayNano(uint64_t ns);
 /**
  * Synchronization
  */
-typedef struct spinlock spinlock_t;
 void SpinLockInit(spinlock_t* lock);
 int SpinLockAttempt(spinlock_t* lock);
 void SpinLock(spinlock_t* lock);
